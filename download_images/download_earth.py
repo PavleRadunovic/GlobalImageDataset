@@ -108,5 +108,3 @@ if __name__ == '__main__':
         # TODO add method for this
         print(tilename)
         pass
-
-

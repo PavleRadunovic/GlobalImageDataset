@@ -102,6 +102,7 @@ def createGeometryFromGeoJSON ():
     try:
         return fiona.model.to_dict(src[0]['geometry'])
     except:
+        print(f"File {path} has invalid geometry or something wrong with attributes!")
         return
 
 
