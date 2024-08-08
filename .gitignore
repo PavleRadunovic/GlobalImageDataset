@@ -12,6 +12,9 @@ CloudGAN/env
 CloudGAN/__pycache__
 CloudGAN/images
 CloudGAN/results
+CloudGAN/checkpoints
+CloudGAN/datasets
+CloudGAN/SN-PatchGan-checkpoints
 pytorch-CycleGAN-and-pix2pix/env
 pytorch-CycleGAN-and-pix2pix/__pycache__
 pytorch-CycleGAN-and-pix2pix/results/*
