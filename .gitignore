@@ -15,6 +15,8 @@ CloudGAN/results
 CloudGAN/checkpoints
 CloudGAN/datasets
 CloudGAN/SN-PatchGan-checkpoints
+CloudGAN/train
+CloudGAN/train.zip
 pytorch-CycleGAN-and-pix2pix/env
 pytorch-CycleGAN-and-pix2pix/__pycache__
 pytorch-CycleGAN-and-pix2pix/results/*
@@ -23,3 +25,5 @@ prepare_clouded_data/__pycache__
 prepare_clouded_data/outputs
 prepare_clouded_data/images
 prepare_clouded_data/prepare_data_for_cloud_GAN.zip
+prepare_clouded_data/train
+prepare_clouded_data/images_for_SN_PatchGAN
