@@ -36,6 +36,17 @@ class Logger:
             f.write(str(evaluate[i])+',')
          
          TP, FP, FN = evaluate[1], evaluate[2], evaluate[4]
-         f.write(str(TP / (TP + FP))+',')           # Precision
-         f.write(str(TP / (TP + FN))+',')           # Recall
-         f.write(str(TP / (TP + 0.5 * (FP + FN))))  # F1-score
+         if TP + FP == 0:
+            f.write(str(0)+',')           # Precision
+         else:
+            f.write(str(TP / (TP + FP))+',')           # Precision
+         
+         if TP + FN == 0:
+            f.write(str(0)+',')           # Recall
+         else:
+            f.write(str(TP / (TP + FN))+',')           # Recall
+
+         if TP + 0.5 * (FP + FN) == 0:
+            f.write(str(0)+',')           # F1-score
+         else:
+            f.write(str(TP / (TP + 0.5 * (FP + FN))))  # F1-score
