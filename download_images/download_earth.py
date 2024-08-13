@@ -4,7 +4,6 @@ import os
 import sys
 from datetime import datetime
 
-
 from input_data import getInputData
 from api_requests import make_folder, download_data
 from image_proccesing import createTrueColorImage
@@ -82,26 +81,6 @@ if __name__ == '__main__':
                     print(f"     - band name: {title}")
                     if href.startswith("https://"):
                         download_data([[href, 'outputs/' + itemDict['id'] + '/' + key + '.tif']])
-            
-            if os.path.exists('./outputs/' + itemDict['id']):
-                print(f"Create true color image for {itemDict['id']} ...")
-                createTrueColorImage(
-                    ['outputs/' + itemDict['id'] + '/blue.tif',
-                     'outputs/' + itemDict['id'] + '/green.tif',
-                     'outputs/' + itemDict['id'] + '/red.tif'
-                    ],
-                    'outputs/' + itemDict['id'] + '/trueColor.tif'
-                )
-                print("True color created!")
-            
-            print("Remove unnecessary bands ...")
-            if os.path.exists('outputs/' + itemDict['id'] + '/trueColor.tif'):
-                os.remove('outputs/' + itemDict['id'] + '/blue.tif')
-                os.remove('outputs/' + itemDict['id'] + '/green.tif')
-                os.remove('outputs/' + itemDict['id'] + '/red.tif')
-            else:
-                print(f"Check why outputs/{itemDict['id']}/trueColor.tif true color image doesn't exist!")
-                exit_program()
             print("Done!")
                     
     elif tilename:
