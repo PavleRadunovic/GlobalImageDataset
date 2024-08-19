@@ -1,8 +1,3 @@
-"""
-Script for downloading data
-"""
-from __future__ import print_function
-
 import os
 import time
 import threading
@@ -18,7 +13,7 @@ THREADED_DOWNLOAD = False
 RETURN_DATA = False
 
 MAX_THREAD_NUMBER = 8
-MAX_NUMBER_OF_DOWNLOAD_TRIES = 2 # Due to bad connection some requests might fail and need to be repeated
+MAX_NUMBER_OF_DOWNLOAD_TRIES = 2
 SLEEP_TIME = 5
 
 SUCCESS_STATUS_CODE_INTERVAL = (200, 203, 403)
@@ -42,7 +37,6 @@ class MyThread(threading.Thread):
             make_request(request[0], request[1])
             self.my_queue.task_done()
 
-# Public function
 def download_data(request_list, redownload=REDOWNLOAD, threaded_download=THREADED_DOWNLOAD):
     if not isinstance(request_list, list): # in case only one request would be given
         return download_data([request_list], redownload, threaded_download)
@@ -66,7 +60,7 @@ def download_data(request_list, redownload=REDOWNLOAD, threaded_download=THREADE
         for request in request_list:
             my_queue.put(request)
 
-        my_queue.join() # waits until all threads are done
+        my_queue.join()
         for i in range(MAX_THREAD_NUMBER):
             my_queue.put(None)
         for thread in threads:
@@ -115,7 +109,7 @@ def get_json(url):
 
 
 '''
-    Method for set location for saving data
+    Method that sets location for saving data
 '''
 def set_file_location(filename):
     path = '/'.join(filename.split('/')[:-1])
@@ -124,9 +118,6 @@ def set_file_location(filename):
     make_folder(path)
 
 
-'''
-    Method that creates a new folder for saving data
-'''
 def make_folder(path):
     if not os.path.exists(path):
         os.makedirs(path)

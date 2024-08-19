@@ -2,28 +2,28 @@ from pystac_client import Client
 import inquirer
 import os
 import sys
-from datetime import datetime
+import datetime
 
 from input_data import getInputData
 from api_requests import make_folder, download_data
-from image_proccesing import createTrueColorImage
 
 OUTPUTS_FOLDER = './outputs'
 CLIENT_URL = "https://earth-search.aws.element84.com/v1"
 COLLECTION_NAME = "sentinel-2-l2a"
+
+SCRIPT_START = datetime.datetime.now()
 
 def exit_program():
     print("Exiting the program...")
     sys.exit(0)
 
 """
-    The main method ....
-    TODO add description
+    The main method for downloading satellite images based on date range, cloud coverage, etc.
 """
 if __name__ == '__main__':
     make_folder(OUTPUTS_FOLDER)
 
-    [date_range, geometry, query, tilename] = getInputData()
+    [date_range, geometry, query] = getInputData()
 
     try:
         client = Client.open(CLIENT_URL)
@@ -36,7 +36,6 @@ if __name__ == '__main__':
         sys.exit()
     
     if geometry:
-        # TODO add method for this and add description
         print("\nSearch for data ...\n")
         search = client.search(
             collections=collection,
@@ -45,6 +44,9 @@ if __name__ == '__main__':
             query=query
         )
         items = list(search.items())
+        if len(items) == 0:
+            print('There are no images for the selected filters!')
+            exit_program()
         itemQuestion = [
             inquirer.Confirm("continue", message=f"There are {len(items)} items. Do you want to continue?", default=True)
         ]
@@ -68,6 +70,7 @@ if __name__ == '__main__':
         
         print("\nDownloading images ...")
         for i in range(numberOfItems):
+            TIME_TO_DOWNLOAD_IMAGES = datetime.datetime.now()
             itemDict = items[i].to_dict()
             print(f"\n({i+1}/{numberOfItems}) Satellite image {itemDict['id']}:")
             print(f"     - satellite image created at: {datetime.strptime(itemDict['properties']['created'], '%Y-%m-%dT%H:%M:%S.%fZ')}")
@@ -78,12 +81,8 @@ if __name__ == '__main__':
                     asset = itemDict["assets"][key]
                     title = asset["title"]
                     href = asset["href"]
-                    print(f"     - band name: {title}")
+                    print(f"           - band name: {title}")
                     if href.startswith("https://"):
                         download_data([[href, 'outputs/' + itemDict['id'] + '/' + key + '.tif']])
-            print("Done!")
-                    
-    elif tilename:
-        # TODO add method for this
-        print(tilename)
-        pass
+            print("Done! --- time to download: " + (datetime.datetime.now() - TIME_TO_DOWNLOAD_IMAGES))
+        print("Time spent: " + str(datetime.datetime.now() - SCRIPT_START))

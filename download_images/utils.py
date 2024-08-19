@@ -4,10 +4,6 @@ import fiona
 import geojson
 from shapely.geometry import Point
 
-
-'''
-    TODO add description
-'''
 def checkInputDateValidation (title):
     while True:
         date_str = input(f"{title} yyyy-mm-dd: ")
@@ -20,22 +16,14 @@ def checkInputDateValidation (title):
             print("Invalid yyyy-mm-dd string, '{date_str}', try again")
     return date_str
 
-
-'''
-    TODO add description
-'''
 def checkDateRangeValidation(dateFrom, dateTo):
     if dateFrom and dateTo:
         if dateFrom and dateTo and datetime.strptime(dateFrom, '%Y-%m-%d') < datetime.strptime(dateTo, '%Y-%m-%d'):
             pass
         else:
             print("Invalid date range, date to can not be smaller than date from, try again!")
-            dateTo = checkInputDateValidation('Datum do')
+            dateTo = checkInputDateValidation('Date to')
 
-
-'''
-    TODO add description
-'''
 def createDateRange(dateFrom, dateTo):
     if dateFrom and dateTo:
        return dateFrom + "/" + dateTo
@@ -47,27 +35,21 @@ def createDateRange(dateFrom, dateTo):
         return date.today().strftime('%Y-%m-%d')
 
 
-'''
-    TODO add description
-'''
 def createPoint():
     point = None
     while True:
         try:
-            pointString = input("Unesi tacku formata lon,lat: ")
+            pointString = input("Enter the point lon,lat: ")
             point = Point(pointString.split(',')[0], pointString.split(',')[1])
             return point
         except:
             print("Bad format for point lon,lat, '{lon}/{lat}', try again!")
 
 
-'''
-    TODO add description
-'''
 def createGeometryFromGeoJSON ():
     while True:
         try:
-            path = input("Unesi putanju do fajla: ")
+            path = input("Enter the file path: ")
             if not os.path.exists(path):
                 raise
             else:
@@ -106,13 +88,10 @@ def createGeometryFromGeoJSON ():
         return
 
 
-'''
-    TODO add description
-'''
 def getBoundingBox():
     while True:
         try:
-            bboxString = input("Unesi BBOX: ")
+            bboxString = input("Enter the BBOX: ")
             bboxArray = bboxString.replace(' ', '').split(',')
             if len(bboxArray) != 4:
                 raise
@@ -140,9 +119,6 @@ def getBoundingBox():
             print("Boundary box is not right!")
 
 
-'''
-    TODO add description
-'''
 def getCloudCoverage ():
     while True:
         try:
@@ -158,19 +134,13 @@ def getCloudCoverage ():
             print('Bad cloud coverage!')
 
 
-'''
-    TODO add description
-'''
 def checkIfSentinelTileIsValid():
-    tilename = input("Unesi ime tajla: ")
-    band = input("Unesi ime banda: ")
-    # tilename = 'S2A_33TYL_20240201_0_L2A'
+    tilename = input("Enter the tile name: ")
+    band = input("Enter the band name: ")
     tileParts = tilename.split('_')
     print(tileParts[2][4: 6])
     if int(tileParts[2][4: 6]) < 10:
         month = int(tileParts[2][4: 6])
     else:
         month = tileParts[2][4, 6]
-    
-
     return f"https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/{tileParts[1][0:2]}/{tileParts[1][2]}/{tileParts[1][3:5]}/{tileParts[2][0:4]}/{month}/{tilename}/{band}.tif"
