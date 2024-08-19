@@ -2,7 +2,7 @@ from pystac_client import Client
 import inquirer
 import os
 import sys
-import datetime
+from datetime import datetime
 
 from input_data import getInputData
 from api_requests import make_folder, download_data
@@ -11,7 +11,7 @@ OUTPUTS_FOLDER = './outputs'
 CLIENT_URL = "https://earth-search.aws.element84.com/v1"
 COLLECTION_NAME = "sentinel-2-l2a"
 
-SCRIPT_START = datetime.datetime.now()
+SCRIPT_START = datetime.now()
 
 def exit_program():
     print("Exiting the program...")
@@ -70,7 +70,7 @@ if __name__ == '__main__':
         
         print("\nDownloading images ...")
         for i in range(numberOfItems):
-            TIME_TO_DOWNLOAD_IMAGES = datetime.datetime.now()
+            TIME_TO_DOWNLOAD_IMAGES = datetime.now()
             itemDict = items[i].to_dict()
             print(f"\n({i+1}/{numberOfItems}) Satellite image {itemDict['id']}:")
             print(f"     - satellite image created at: {datetime.strptime(itemDict['properties']['created'], '%Y-%m-%dT%H:%M:%S.%fZ')}")
@@ -84,5 +84,5 @@ if __name__ == '__main__':
                     print(f"           - band name: {title}")
                     if href.startswith("https://"):
                         download_data([[href, 'outputs/' + itemDict['id'] + '/' + key + '.tif']])
-            print("Done! --- time to download: " + (datetime.datetime.now() - TIME_TO_DOWNLOAD_IMAGES))
-        print("Time spent: " + str(datetime.datetime.now() - SCRIPT_START))
+            print("Done! --- time to download: " + (datetime.now() - TIME_TO_DOWNLOAD_IMAGES))
+        print("Time spent: " + str(datetime.now() - SCRIPT_START))
