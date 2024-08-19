@@ -84,5 +84,5 @@ if __name__ == '__main__':
                     print(f"           - band name: {title}")
                     if href.startswith("https://"):
                         download_data([[href, 'outputs/' + itemDict['id'] + '/' + key + '.tif']])
-            print("Done! --- time to download: " + (datetime.now() - TIME_TO_DOWNLOAD_IMAGES))
-        print("Time spent: " + str(datetime.now() - SCRIPT_START))
+            print(f"Done! --- time to download: {datetime.now() - TIME_TO_DOWNLOAD_IMAGES}")
+        print(f"Time spent: {datetime.now() - SCRIPT_START}")

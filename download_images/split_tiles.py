@@ -96,5 +96,5 @@ if __name__ == "__main__":
         shutil.rmtree(OUTPUT + '/' + images[i] + '/red')
         shutil.rmtree(OUTPUT + '/' + images[i] + '/green')
         shutil.rmtree(OUTPUT + '/' + images[i] + '/blue')
-        print("Done! --- time to create tiles: " + (datetime.datetime.now() - TIME_TO_CREATE_TILES))
-    print("Time spent: " + str(datetime.datetime.now() - SCRIPT_START))
+        print(f"Done! --- time to create tiles: {datetime.datetime.now() - TIME_TO_CREATE_TILES}")
+    print(f"Time spent: {datetime.datetime.now() - SCRIPT_START}")
