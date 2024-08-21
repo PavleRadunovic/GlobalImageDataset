@@ -84,17 +84,10 @@ if __name__ == "__main__":
     for i in range(len(images)):
         TIME_TO_CREATE_TILES = datetime.datetime.now()
         print(f"({i+1}/{len(images)}) Create tiles for image {IMAGES_PATH}/{images[i]}")
-        split_image(f'{IMAGES_PATH}/' + images[i] + '/red.tif', OUTPUT + '/' + images[i] + '/red')
-        split_image(f'{IMAGES_PATH}/' + images[i] + '/green.tif', OUTPUT + '/' + images[i] + '/green')
-        split_image(f'{IMAGES_PATH}/' + images[i] + '/blue.tif', OUTPUT + '/' + images[i] + '/blue')    
-        red_image_tiles = os.listdir(OUTPUT + '/' + images[i] + '/red')
-        if not os.path.exists(OUTPUT + '/' + images[i] + '/trueColor'):
-            os.mkdir(OUTPUT + '/' + images[i] + '/trueColor')
-        for j in range(len(red_image_tiles)):
-            print(f'({j + 1}/{len(red_image_tiles)})')
-            os.system(f'gdal_merge.py -separate -o {OUTPUT + '/' + images[i] + '/trueColor/' + red_image_tiles[j]} -co PHOTOMETRIC=RGB {OUTPUT + '/' + images[i] + '/red/' + red_image_tiles[j]} {OUTPUT + '/' + images[i] + '/green/' + red_image_tiles[j]} {OUTPUT + '/' + images[i] + '/blue/' + red_image_tiles[j]}')
-        shutil.rmtree(OUTPUT + '/' + images[i] + '/red')
-        shutil.rmtree(OUTPUT + '/' + images[i] + '/green')
-        shutil.rmtree(OUTPUT + '/' + images[i] + '/blue')
+        split_image(f'{IMAGES_PATH}/' + images[i] + '/trueColor.tif', OUTPUT + '/' + images[i])   
+        image_tiles = os.listdir(OUTPUT + '/' + images[i])
+        for j in range(len(image_tiles)):
+            print(f'({j + 1}/{len(image_tiles)})')
+            os.system(f'gdal_merge.py -o {OUTPUT + '/' + images[i] + '/RGB/' + image_tiles[j]} -co PHOTOMETRIC=RGB {OUTPUT + '/' + images[i] + '/' + image_tiles[j]}')
         print(f"Done! --- time to create tiles: {datetime.datetime.now() - TIME_TO_CREATE_TILES}")
     print(f"Time spent: {datetime.datetime.now() - SCRIPT_START}")
