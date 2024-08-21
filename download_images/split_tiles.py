@@ -84,6 +84,9 @@ if __name__ == "__main__":
     for i in range(len(images)):
         TIME_TO_CREATE_TILES = datetime.datetime.now()
         print(f"({i+1}/{len(images)}) Create tiles for image {IMAGES_PATH}/{images[i]}")
+        if not os.path.exists(OUTPUT + '/' + images[i]):
+            os.mkdir(OUTPUT + '/' + images[i])
+            os.mkdir(OUTPUT + '/' + images[i] + '/RGB')
         split_image(f'{IMAGES_PATH}/' + images[i] + '/trueColor.tif', OUTPUT + '/' + images[i])   
         image_tiles = os.listdir(OUTPUT + '/' + images[i])
         for j in range(len(image_tiles)):
