@@ -8,8 +8,8 @@ import argparse
 # If we receive an error: rasterio.errors.RasterioIOError: ... Too many open files
 # Try this: ulimit -n 50000
 
-IMAGES_PATH = './images'
-MOSAIC_OUTPUT = './mosaic_output'
+IMAGES_PATH = '../pytorch-CycleGAN-and-pix2pix/pretrained_images'
+MOSAIC_OUTPUT = './images'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--images_path', default=IMAGES_PATH, type=str,
@@ -21,7 +21,7 @@ def exit_program():
     print("Exiting the program...")
     sys.exit(0)
 
-def create_mosaic(images_path):
+def create_mosaic(images_path, mosaic_name):
     # Open all images and prepare them for merging
     src_files_to_mosaic = []
     for image_path in images_path:
@@ -34,7 +34,7 @@ def create_mosaic(images_path):
 
     # Write the mosaic to the output file
     with rasterio.open(
-        MOSAIC_OUTPUT + '/mosaic.tif', 'w', driver='GTiff',
+        MOSAIC_OUTPUT + '/' + mosaic_name, 'w', driver='GTiff',
         height=mosaic.shape[1], width=mosaic.shape[2],
         count=len(src_files_to_mosaic[0].read()),  # assuming all tiles have same number of bands
         dtype=mosaic.dtype,
@@ -42,6 +42,7 @@ def create_mosaic(images_path):
         transform=out_trans
     ) as dst:
         dst.write(mosaic)
+        dst.close()
 
     # Close all sources
     for src in src_files_to_mosaic:
@@ -53,8 +54,10 @@ if __name__ == "__main__":
         IMAGES_PATH = args.images_path
     if args.output:
         MOSAIC_OUTPUT = args.output
-    if os.path.exists(IMAGES_PATH):
-        source_images_path = os.listdir(IMAGES_PATH)
-        create_mosaic(source_images_path)
-    else:
-        exit_program()
+    images_path = os.listdir(IMAGES_PATH)
+    for i in range(len(images_path)):
+        if os.path.exists(IMAGES_PATH + '/' + images_path[i]):
+            source_images_path = os.listdir(IMAGES_PATH + '/' + images_path[i])
+            create_mosaic(source_images_path, images_path[i])
+        else:
+            exit_program()

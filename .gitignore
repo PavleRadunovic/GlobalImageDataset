@@ -21,7 +21,8 @@ CloudGAN/train
 CloudGAN/train.zip
 pytorch-CycleGAN-and-pix2pix/env
 pytorch-CycleGAN-and-pix2pix/__pycache__
-pytorch-CycleGAN-and-pix2pix/results/*
+pytorch-CycleGAN-and-pix2pix/results
+pytorch-CycleGAN-and-pix2pix/images
 prepare_data_for_processing/env
 prepare_data_for_processing/__pycache__
 prepare_data_for_processing/outputs
